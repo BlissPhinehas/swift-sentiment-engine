@@ -6,9 +6,7 @@ public struct HuggingFaceClient {
 
     private let apiToken: String
     private let modelURL = URL(
-        string:
-            "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"
-    )!
+        string: "https://router.huggingface.co/hf-inference/models/ProsusAI/finbert")!
 
     /// Creates a new client with your Hugging Face API token.
     public init(apiToken: String) {
