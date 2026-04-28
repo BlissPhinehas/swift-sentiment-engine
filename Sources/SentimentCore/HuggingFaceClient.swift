@@ -2,6 +2,9 @@ import Foundation
 import FoundationNetworking
 
 /// Handles communication with the Hugging Face Inference API.
+///
+/// Uses `async/await` and `URLSession` to send text to a hosted
+/// sentiment analysis model and return the parsed result.
 public struct HuggingFaceClient {
 
     private let apiToken: String
@@ -9,11 +12,16 @@ public struct HuggingFaceClient {
         string: "https://router.huggingface.co/hf-inference/models/ProsusAI/finbert")!
 
     /// Creates a new client with your Hugging Face API token.
+    /// - Parameter apiToken: Your Hugging Face Inference API token.
     public init(apiToken: String) {
         self.apiToken = apiToken
     }
 
-    /// Sends text to the API and returns the raw sentiment data.
+    /// Sends text to the Hugging Face API and returns a ``SentimentResult``.
+    /// - Parameter text: The text to analyze.
+    /// - Returns: A ``SentimentResult`` with the top label and confidence score.
+    /// - Throws: A `URLError` if the network request fails, or a
+    ///           `DecodingError` if the response cannot be parsed.
     public func analyze(text: String) async throws -> SentimentResult {
         var request = URLRequest(url: modelURL)
         request.httpMethod = "POST"
